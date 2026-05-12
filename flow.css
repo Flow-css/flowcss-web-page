@@ -83,3 +83,42 @@ p, h1, h2, h3, h4, h5, h6 { overflow-wrap: break-word; }
 
   /* Animation durations */
   --flow-dur-fast:   0.2s;
+  --flow-dur-base:   0.4s;
+  --flow-dur-slow:   0.8s;
+  --flow-dur-slower: 1.2s;
+
+  /* Z-index scale */
+  --flow-z-below:   -1;
+  --flow-z-base:     0;
+  --flow-z-raised:  10;
+  --flow-z-overlay: 100;
+  --flow-z-modal:   200;
+  --flow-z-toast:   300;
+  --flow-z-top:     9999;
+}
+
+/* Dark mode */
+[data-theme="dark"] {
+  --flow-white: #0a0a0a;
+  --flow-black: #ffffff;
+  --flow-gray-50:  #111827;
+  --flow-gray-100: #1f2937;
+  --flow-gray-200: #374151;
+  --flow-gray-300: #4b5563;
+  --flow-gray-400: #6b7280;
+  --flow-gray-500: #9ca3af;
+  --flow-gray-600: #d1d5db;
+  --flow-gray-700: #e5e7eb;
+  --flow-gray-800: #f3f4f6;
+  --flow-gray-900: #f9fafb;
+}
+
+
+/* ============================================================
+   ANIMATIONS — FlowCSS's superpower
+   ============================================================ */
+
+/* ─── Keyframes ─────────────────────────────────────────── */
+
+@keyframes flow-fade-in       { from { opacity: 0; } to { opacity: 1; } }
+@keyframes flow-fade-out      { from { opacity: 1; } to { opacity: 0; } }
