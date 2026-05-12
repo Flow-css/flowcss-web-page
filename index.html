@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FlowCSS — The CSS Framework Built for Motion</title>
+  <meta name="description" content="A modern, minimal CSS framework with powerful animations, components, and theming — everything Tailwind can't do." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./flow.css" />
+  <style>
+    :root {
+      --flow-font-sans: 'DM Sans', system-ui, sans-serif;
+      --flow-font-mono: 'DM Mono', monospace;
+    }
+
+    body { font-family: var(--flow-font-sans); background: #fff; color: var(--flow-gray-900); }
+
+    /* Custom hero gradient */
+    .hero-bg {
+      background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(37,99,235,0.08) 0%, transparent 70%),
+                  radial-gradient(ellipse 50% 40% at 80% 80%, rgba(14,165,233,0.06) 0%, transparent 60%);
+    }
+
+    /* Floating shapes */
+    .shape {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(40px);
+      pointer-events: none;
+      animation: flow-float 6s ease-in-out infinite;
+    }
+    .shape-1 { width: 400px; height: 400px; background: rgba(37,99,235,0.06); top: -100px; right: -100px; animation-delay: 0s; }
+    .shape-2 { width: 300px; height: 300px; background: rgba(14,165,233,0.06); bottom: 0; left: -80px; animation-delay: 2s; }
+    .shape-3 { width: 200px; height: 200px; background: rgba(124,58,237,0.05); top: 40%; left: 10%; animation-delay: 4s; }
+
+    /* Code block */
+    .code-demo {
+      background: #0f172a;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 2rem;
+      font-family: var(--flow-font-mono);
+      font-size: 0.875rem;
+      line-height: 1.8;
+      overflow-x: auto;
+      position: relative;
+    }
+    .code-demo .token-class  { color: #7dd3fc; }
+    .code-demo .token-string { color: #86efac; }
+    .code-demo .token-tag    { color: #fda4af; }
+    .code-demo .token-attr   { color: #c4b5fd; }
+
+    /* Feature card */
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(37,99,235,0.1), rgba(14,165,233,0.1));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    /* Animation showcase grid */
+    .anim-card {
+      border: 1px solid var(--flow-gray-200);
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .anim-card:hover { border-color: var(--flow-primary); box-shadow: 0 4px 20px rgba(37,99,235,0.1); }
+    .anim-demo-box {
+      width: 48px; height: 48px;
+      background: linear-gradient(135deg, var(--flow-primary), var(--flow-accent));
+      border-radius: 10px;
+    }
+    .anim-card:hover .anim-demo-box { animation-play-state: running; }
+
+    /* Comparison table */
+    .check { color: var(--flow-success); font-size: 1.1rem; }
+    .cross { color: var(--flow-danger); font-size: 1.1rem; }
+
+    /* Gradient section */
+    .gradient-section {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .gradient-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 50% 100%, rgba(37,99,235,0.15) 0%, transparent 70%);
+    }
+
+    /* Nav */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1rem 2rem; display: flex; align-items: center; gap: 2rem; background: rgba(255,255,255,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.06); }
+    nav .logo { font-weight: 700; font-size: 1.125rem; color: #0a0a0a; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
+    nav .logo-dot { width: 8px; height: 8px; background: var(--flow-primary); border-radius: 50%; display: inline-block; }
+    nav .nav-links { display: flex; gap: 1.5rem; margin-left: auto; }
+    nav a { font-size: 0.875rem; color: var(--flow-gray-600); text-decoration: none; transition: color 0.2s; }
+    nav a:hover { color: var(--flow-gray-900); }
+    nav .nav-cta { background: var(--flow-gray-900); color: #fff; padding: 0.5rem 1.25rem; border-radius: 8px; font-weight: 500; font-size: 0.875rem; transition: opacity 0.2s; }
+    nav .nav-cta:hover { opacity: 0.85; color: #fff; }
+
+    /* Footer */
+    footer { border-top: 1px solid var(--flow-gray-100); padding: 3rem 2rem; text-align: center; color: var(--flow-gray-400); font-size: 0.875rem; }
+
+    .terminal-line::before { content: '$ '; color: #4ade80; }
+
+    /* Stagger visible fix */
+    .flow-stagger > * { opacity: 0; }
+
+    @media (max-width: 768px) {
+      nav .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <a href="#" class="logo"><span class="logo-dot"></span>FlowCSS</a>
+  <div class="nav-links">
+    <a href="docs.html">Docs</a>
+    <a href="#features">Features</a>
+    <a href="#animations">Animations</a>
+    <a href="#compare">Compare</a>
+    <a href="https://github.com" target="_blank">GitHub</a>
+  </div>
+  <a href="docs.html" class="nav-cta nav-links">Get Started →</a>
+</nav>
+
+<!-- Hero -->
+<section class="hero-bg flow-relative flow-overflow-hidden" style="padding-top: 8rem; padding-bottom: 6rem; min-height: 100vh; display: flex; align-items: center;">
+  <div class="shape shape-1"></div>
+  <div class="shape shape-2"></div>
+  <div class="shape shape-3"></div>
+  <div class="flow-container flow-text-center flow-relative" style="z-index:1">
+    <div class="flow-animate-fade-in flow-delay-100">
+      <span class="flow-badge flow-badge--primary flow-mb-4" style="display:inline-flex; margin-bottom: 1.5rem;">
+        <span class="flow-badge--dot" style="margin-right:0.5rem"></span>
+        v1.0 — Now available on npm
+      </span>
+    </div>
+
+    <h1 class="flow-animate-slide-up flow-delay-200" style="font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1.5rem;">
+      CSS that moves with you.<br>
+      <span class="flow-text-gradient">Animations included.</span>
+    </h1>
+
+    <p class="flow-animate-slide-up flow-delay-300 flow-text-lg flow-mx-auto" style="max-width: 560px; color: var(--flow-gray-500); margin-bottom: 2.5rem; line-height: 1.7;">
+      FlowCSS is a minimal, utility-first framework with 40+ built-in animations, powerful components, glassmorphism, 3D transforms, and dark mode — out of the box.
+    </p>
+
+    <div class="flow-animate-scale-in flow-delay-500" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 4rem;">
+      <a href="docs.html" class="flow-btn flow-btn--primary flow-btn--lg flow-btn--ripple">
+        Read the Docs →
+      </a>
+      <a href="https://npmjs.com" class="flow-btn flow-btn--outline flow-btn--lg">
+        npm i flowcss-style
+      </a>
+    </div>
+
+    <!-- Live code preview -->
+    <div class="flow-animate-rise flow-delay-700" style="max-width: 680px; margin: 0 auto; text-align: left;">
+      <div class="code-demo">
+        <div style="display:flex; gap:6px; margin-bottom:1.25rem;">
+          <span style="width:12px;height:12px;border-radius:50%;background:#ff5f57;display:inline-block"></span>
+          <span style="width:12px;height:12px;border-radius:50%;background:#ffbd2e;display:inline-block"></span>
+          <span style="width:12px;height:12px;border-radius:50%;background:#28c840;display:inline-block"></span>
+        </div>
+<pre style="margin:0;background:none;padding:0;color:#e2e8f0;font-family:var(--flow-font-mono);font-size:0.875rem;line-height:1.8"><span class="token-tag">&lt;div</span> <span class="token-attr">class</span>=<span class="token-string">"flow-card flow-card-3d flow-animate-slide-up"</span><span class="token-tag">&gt;</span>
+  <span class="token-tag">&lt;h2</span> <span class="token-attr">class</span>=<span class="token-string">"flow-text-gradient flow-font-bold"</span><span class="token-tag">&gt;</span>Hello, Flow<span class="token-tag">&lt;/h2&gt;</span>
+  <span class="token-tag">&lt;p</span> <span class="token-attr">class</span>=<span class="token-string">"flow-text-muted"</span><span class="token-tag">&gt;</span>Animations, no config needed.<span class="token-tag">&lt;/p&gt;</span>
+  <span class="token-tag">&lt;button</span> <span class="token-attr">class</span>=<span class="token-string">"flow-btn flow-btn--gradient flow-btn--ripple"</span><span class="token-tag">&gt;</span>
+    Get started
+  <span class="token-tag">&lt;/button&gt;</span>
+<span class="token-tag">&lt;/div&gt;</span></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section style="padding: 2rem 0; border-top: 1px solid var(--flow-gray-100); border-bottom: 1px solid var(--flow-gray-100);">
+  <div class="flow-container">
+    <div class="flow-grid flow-grid-cols-4 flow-gap-0 flow-stagger flow-slide-up" style="text-align:center;">
+      <div class="flow-stat">
+        <div class="flow-stat__label">Animations</div>
+        <div class="flow-stat__value flow-text-gradient" data-flow-counter data-count="40" data-suffix="+">0</div>
+      </div>
+      <div class="flow-stat">
+        <div class="flow-stat__label">Components</div>
+        <div class="flow-stat__value flow-text-gradient" data-flow-counter data-count="25" data-suffix="+">0</div>
+      </div>
+      <div class="flow-stat">
+        <div class="flow-stat__label">Bundle Size</div>
+        <div class="flow-stat__value flow-text-gradient">~28kb</div>
+      </div>
+      <div class="flow-stat">
+        <div class="flow-stat__label">Dependencies</div>
+        <div class="flow-stat__value flow-text-gradient">0</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section id="features" class="flow-section">
+  <div class="flow-container">
+    <div class="flow-text-center flow-mb-12 flow-reveal flow-reveal--up">
+      <p class="flow-text-sm flow-font-medium flow-text-primary flow-mb-2" style="letter-spacing:0.1em;text-transform:uppercase;">Why FlowCSS</p>
+      <h2 style="font-size:2.5rem;font-weight:700;letter-spacing:-0.02em;line-height:1.2;">Built for what Tailwind<br>left behind</h2>
+    </div>
+
+    <div class="flow-auto-grid flow-stagger flow-slide-up" style="--flow-auto-grid-min: 300px; gap: 1.5rem;">
+      <div class="flow-reveal flow-reveal--up">
+        <div class="flow-card" style="height:100%">
+          <div class="feature-icon" style="margin-bottom:1rem;">🎬</div>
+          <h3 class="flow-font-semibold flow-mb-2">40+ Animations</h3>
+          <p class="flow-text-sm flow-text-muted">Entrance, looping, attention-seekers, morphing, glitch, typewriter, shimmer, and scroll-triggered reveals. All via single classes.</p>
+        </div>
+      </div>
+      <div class="flow-reveal flow-reveal--up" style="--delay:100ms">
+        <div class="flow-card" style="height:100%">
+          <div class="feature-icon" style="margin-bottom:1rem;">🪟</div>
+          <h3 class="flow-font-semibold flow-mb-2">Glassmorphism Built-in</h3>
+          <p class="flow-text-sm flow-text-muted">Use <code class="flow-code">flow-glass</code> or <code class="flow-code">flow-glass--dark</code> for instant frosted-glass effects with proper backdrop-filter support.</p>
+        </div>
+      </div>
+      <div class="flow-reveal flow-reveal--up">
+        <div class="flow-card" style="height:100%">
+          <div class="feature-icon" style="margin-bottom:1rem;">📦</div>
+          <h3 class="flow-font-semibold flow-mb-2">Real Components</h3>
+          <p class="flow-text-sm flow-text-muted">Cards, navbars, badges, alerts, accordions, tabs, toasts, progress bars, timelines, and more — all styled and ready to use.</p>
+        </div>
+      </div>
+      <div class="flow-reveal flow-reveal--up">
+        <div class="flow-card" style="height:100%">
+          <div class="feature-icon" style="margin-bottom:1rem;">🎨</div>
+          <h3 class="flow-font-semibold flow-mb-2">CSS Variables Theming</h3>
+          <p class="flow-text-sm flow-text-muted">Every value — color, spacing, radius, shadow, font — is a CSS variable. Override any token globally or locally without config files.</p>
+        </div>
+      </div>
+      <div class="flow-reveal flow-reveal--up">
+        <div class="flow-card" style="height:100%">
+          <div class="feature-icon" style="margin-bottom:1rem;">🌑</div>
+          <h3 class="flow-font-semibold flow-mb-2">Dark Mode</h3>
+          <p class="flow-text-sm flow-text-muted">Add <code class="flow-code">data-theme="dark"</code> to the HTML element — no extra classes needed. Flow.js toggles and persists it automatically.</p>
+        </div>
+      </div>
+      <div class="flow-reveal flow-reveal--up">
+        <div class="flow-card" style="height:100%">
+          <div class="feature-icon" style="margin-bottom:1rem;">📐</div>
+          <h3 class="flow-font-semibold flow-mb-2">Auto-responsive Grid</h3>
+          <p class="flow-text-sm flow-text-muted"><code class="flow-code">flow-auto-grid</code> uses CSS <code class="flow-code">auto-fit</code> to be responsive with no breakpoints. Zero media-query clutter.</p>
+        </div>
+      </div>
+      <div class="flow-reveal flow-reveal--up">
+        <div class="flow-card" style="height:100%">
+          <div class="feature-icon" style="margin-bottom:1rem;">🧊</div>
+          <h3 class="flow-font-semibold flow-mb-2">3D Transforms</h3>
+          <p class="flow-text-sm flow-text-muted">Perspective, rotateX/Y, preserve-3d, and the <code class="flow-code">flow-card-3d</code> hover effect. First-class 3D CSS with no plugin needed.</p>
+        </div>
+      </div>
+      <div class="flow-reveal flow-reveal--up">
+        <div class="flow-card" style="height:100%">
+          <div class="feature-icon" style="margin-bottom:1rem;">⚡</div>
+          <h3 class="flow-font-semibold flow-mb-2">Zero Dependencies</h3>
+          <p class="flow-text-sm flow-text-muted">Just one CSS file and one optional JS file. No PostCSS, no build step, no configuration. Drop a link tag and go.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Animation showcase -->
+<section id="animations" style="padding: 5rem 0; background: var(--flow-gray-50);">
+  <div class="flow-container">
+    <div class="flow-text-center flow-mb-12 flow-reveal flow-reveal--up">
+      <p class="flow-text-sm flow-font-medium flow-text-primary flow-mb-2" style="letter-spacing:0.1em;text-transform:uppercase;">Animations</p>
+      <h2 style="font-size:2.5rem;font-weight:700;letter-spacing:-0.02em;">Hover to preview</h2>
+      <p class="flow-text-muted flow-mt-2">40+ ready-to-use animations. Just add a class.</p>
+    </div>
+
+    <div class="flow-grid flow-gap-4" style="grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));">
+      <div class="anim-card" onmouseenter="triggerAnim(this,'flow-animate-bounce')">
+        <div class="anim-demo-box"></div>
+        <code class="flow-code flow-text-xs">flow-animate-bounce</code>
+      </div>
+      <div class="anim-card" onmouseenter="triggerAnim(this,'flow-animate-float')">
+        <div class="anim-demo-box"></div>
+        <code class="flow-code flow-text-xs">flow-animate-float</code>
+      </div>
+      <div class="anim-card" onmouseenter="triggerAnim(this,'flow-animate-spin')">
+        <div class="anim-demo-box"></div>
+        <code class="flow-code flow-text-xs">flow-animate-spin</code>
+      </div>
+      <div class="anim-card" onmouseenter="triggerAnim(this,'flow-animate-heartbeat')">
+        <div class="anim-demo-box"></div>
+        <code class="flow-code flow-text-xs">flow-animate-heartbeat</code>
+      </div>
+      <div class="anim-card" onmouseenter="triggerAnim(this,'flow-animate-shake')">
+        <div class="anim-demo-box"></div>
+        <code class="flow-code flow-text-xs">flow-animate-shake</code>
+      </div>
+      <div class="anim-card" onmouseenter="triggerAnim(this,'flow-animate-tada')">
+        <div class="anim-demo-box"></div>
+        <code class="flow-code flow-text-xs">flow-animate-tada</code>
+      </div>
+      <div class="anim-card" onmouseenter="triggerAnim(this,'flow-animate-jello')">
+        <div class="anim-demo-box"></div>
+        <code class="flow-code flow-text-xs">flow-animate-jello</code>
+      </div>
+      <div class="anim-card" onmouseenter="triggerAnim(this,'flow-animate-rubber-band')">
+        <div class="anim-demo-box"></div>
+        <code class="flow-code flow-text-xs">flow-animate-rubber-band</code>
+      </div>
+      <div class="anim-card" onmouseenter="triggerAnim(this,'flow-animate-morph')">
+        <div class="anim-demo-box"></div>
+        <code class="flow-code flow-text-xs">flow-animate-morph</code>
+      </div>
+      <div class="anim-card" onmouseenter="triggerAnim(this,'flow-animate-pop')">
+        <div class="anim-demo-box"></div>
+        <code class="flow-code flow-text-xs">flow-animate-pop</code>
+      </div>
+      <div class="anim-card" onmouseenter="triggerAnim(this,'flow-animate-blur-in')">
+        <div class="anim-demo-box"></div>
+        <code class="flow-code flow-text-xs">flow-animate-blur-in</code>
+      </div>
+      <div class="anim-card" onmouseenter="triggerAnim(this,'flow-animate-neon-pulse')">
+        <div class="anim-demo-box"></div>
+        <code class="flow-code flow-text-xs">flow-animate-neon-pulse</code>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Compare section -->
+<section id="compare" class="flow-section">
+  <div class="flow-container">
+    <div class="flow-text-center flow-mb-12 flow-reveal flow-reveal--up">
+      <p class="flow-text-sm flow-font-medium flow-text-primary flow-mb-2" style="letter-spacing:0.1em;text-transform:uppercase;">Comparison</p>
+      <h2 style="font-size:2.5rem;font-weight:700;letter-spacing:-0.02em;">FlowCSS vs Tailwind</h2>
+    </div>
+    <div style="max-width:700px;margin:0 auto;" class="flow-reveal flow-reveal--up">
+      <table class="flow-table">
+        <thead>
+          <tr>
+            <th style="width:50%">Feature</th>
+            <th style="text-align:center">FlowCSS</th>
+            <th style="text-align:center">Tailwind</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Built-in animations</td><td style="text-align:center"><span class="check">✔</span> 40+</td><td style="text-align:center"><span class="cross">✘</span> 4</td></tr>
+          <tr><td>Scroll-triggered reveals</td><td style="text-align:center"><span class="check">✔</span></td><td style="text-align:center"><span class="cross">✘</span></td></tr>
+          <tr><td>Glassmorphism utilities</td><td style="text-align:center"><span class="check">✔</span></td><td style="text-align:center"><span class="cross">✘</span></td></tr>
+          <tr><td>3D / perspective utilities</td><td style="text-align:center"><span class="check">✔</span></td><td style="text-align:center"><span class="cross">✘</span></td></tr>
+          <tr><td>Pre-built components</td><td style="text-align:center"><span class="check">✔</span></td><td style="text-align:center"><span class="cross">✘</span></td></tr>
+          <tr><td>Dark mode (zero classes)</td><td style="text-align:center"><span class="check">✔</span></td><td style="text-align:center">Partial</td></tr>
+          <tr><td>Auto-responsive grid</td><td style="text-align:center"><span class="check">✔</span></td><td style="text-align:center"><span class="cross">✘</span></td></tr>
+          <tr><td>Gradient text utilities</td><td style="text-align:center"><span class="check">✔</span></td><td style="text-align:center">Plugin needed</td></tr>
+          <tr><td>Zero build step</td><td style="text-align:center"><span class="check">✔</span></td><td style="text-align:center"><span class="cross">✘</span></td></tr>
+          <tr><td>CSS variable theming</td><td style="text-align:center"><span class="check">✔</span></td><td style="text-align:center">Partial</td></tr>
+          <tr><td>Typewriter component</td><td style="text-align:center"><span class="check">✔</span></td><td style="text-align:center"><span class="cross">✘</span></td></tr>
+          <tr><td>Ripple button effect</td><td style="text-align:center"><span class="check">✔</span></td><td style="text-align:center"><span class="cross">✘</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Install CTA -->
+<section class="gradient-section flow-relative" style="padding: 6rem 0;">
+  <div class="flow-container flow-text-center flow-relative" style="z-index:1;">
+    <div class="flow-reveal flow-reveal--scale">
+      <h2 style="font-size:2.5rem;font-weight:700;color:#fff;letter-spacing:-0.02em;margin-bottom:1rem;">
+        Start building in seconds.
+      </h2>
+      <p style="color:rgba(255,255,255,0.6);margin-bottom:2.5rem;font-size:1.125rem;">No config. No build step. Just drop it in and flow.</p>
+
+      <div class="code-demo flow-mx-auto flow-mb-6" style="max-width:480px;text-align:left;">
+        <p class="terminal-line" style="color:#e2e8f0;font-family:var(--flow-font-mono);">npm install flowcss</p>
+        <p style="color:rgba(255,255,255,0.4);font-family:var(--flow-font-mono);font-size:0.8rem;margin-top:0.5rem;"># or via CDN</p>
+        <p style="color:#86efac;font-family:var(--flow-font-mono);font-size:0.8rem;">&lt;link rel="stylesheet" href="https://unpkg.com/flowcss/dist/flow.css"&gt;</p>
+      </div>
+
+      <a href="docs.html" class="flow-btn flow-btn--glass flow-btn--lg flow-btn--ripple" style="font-size:1rem;">
+        Read the Docs →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p style="margin-bottom:0.5rem;">
+    <strong style="color:var(--flow-gray-700)">FlowCSS</strong> — Built with care. MIT Licensed.
+  </p>
+  <p>Made for developers who care about motion.</p>
+</footer>
+
+<script src="./flow.js"></script>
+<script>
+  function triggerAnim(card, cls) {
+    const box = card.querySelector('.anim-demo-box');
+    box.className = 'anim-demo-box';
+    void box.offsetWidth;
+    box.classList.add(cls);
+  }
+</script>
+</body>
+</html>
