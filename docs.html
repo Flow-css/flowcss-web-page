@@ -24,16 +24,67 @@
       color: var(--flow-gray-900);
     }
 
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .top-nav .logo {
+      font-weight: 700;
+      font-size: 1.125rem;
+      color: #0a0a0a;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .top-nav .logo-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--flow-primary);
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .top-nav .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      margin-left: auto;
+    }
+
+    .top-nav .nav-links a {
+      font-size: 0.875rem;
+      color: var(--flow-gray-600);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .top-nav .nav-links a:hover {
+      color: var(--flow-gray-900);
+    }
+
     .docs-layout {
       display: flex;
       min-height: 100vh;
+      padding-top: 4.5rem;
     }
 
     .sidebar {
       width: var(--sidebar-w);
       flex-shrink: 0;
       position: fixed;
-      top: 0;
+      top: 4.5rem;
       left: 0;
       bottom: 0;
       overflow-y: auto;
@@ -236,6 +287,15 @@
     }
 
     @media(max-width:768px) {
+      .top-nav {
+        padding: 1rem 1.25rem;
+        gap: 1rem;
+      }
+
+      .top-nav .nav-links {
+        gap: 1rem;
+      }
+
       .sidebar {
         display: none;
       }
@@ -249,6 +309,14 @@
 </head>
 
 <body>
+  <nav class="top-nav">
+    <a href="index.html" class="logo"><span class="logo-dot"></span>FlowCSS</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="docs.html">Docs</a>
+      <a href="https://github.com/Flow-css/flowcss" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </nav>
   <div class="docs-layout">
     <aside class="sidebar">
       <a href="index.html" class="logo"><span
