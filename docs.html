@@ -533,6 +533,7 @@ import 'flowcss/dist/flow.js'; // optional JS features</code></pre>
 
 &lt;!-- JS (loop, custom speed) --&gt;
 &lt;script&gt;
+Flow.typewriter(el, { text: 'Hello!', speed: 60, loop: true });
 &lt;/script&gt;</code></pre>
 
       <h2 id="delays">Delays & Duration</h2>
@@ -544,6 +545,7 @@ import 'flowcss/dist/flow.js'; // optional JS features</code></pre>
           </tr>
         </thead>
         <tbody>
+          <tr>
             <td><code>flow-delay-75</code></td>
             <td>75ms</td>
           </tr>
@@ -553,6 +555,7 @@ import 'flowcss/dist/flow.js'; // optional JS features</code></pre>
           </tr>
           <tr>
             <td><code>flow-delay-200</code></td>
+            <td>200ms</td>
           </tr>
           <tr>
             <td><code>flow-delay-300</code></td>
@@ -565,6 +568,8 @@ import 'flowcss/dist/flow.js'; // optional JS features</code></pre>
           <tr>
             <td><code>flow-delay-1000</code></td>
             <td>1000ms</td>
+          </tr>
+          <tr>
             <td><code>flow-duration-fast</code></td>
             <td>0.2s</td>
           </tr>
@@ -578,3 +583,18 @@ import 'flowcss/dist/flow.js'; // optional JS features</code></pre>
       <h2 id="container">Container</h2>
       <pre><code>&lt;div class="flow-container"&gt;...&lt;/div&gt;
 &lt;div class="flow-container flow-container--sm"&gt;Max 480px&lt;/div&gt;</code></pre>
+
+      <h2 id="flex">Flexbox</h2>
+      <pre><code>&lt;div class="flow-flex flow-items-center flow-justify-between flow-gap-4"&gt;...&lt;/div&gt;
+&lt;div class="flow-center" style="height:200px"&gt;Centered!&lt;/div&gt;</code></pre>
+
+      <h2 id="grid">Grid</h2>
+      <pre><code>&lt;div class="flow-grid flow-grid-cols-3 flow-gap-6"&gt;...&lt;/div&gt;</code></pre>
+
+      <h2 id="auto-grid">Auto Grid <span class="badge-new">NEW</span></h2>
+      <pre><code>&lt;div class="flow-auto-grid flow-gap-6"&gt;...&lt;/div&gt;
+&lt;div class="flow-auto-grid flow-auto-grid--sm"&gt;...&lt;/div&gt;
+&lt;div class="flow-auto-grid" style="--flow-auto-grid-min:200px"&gt;...&lt;/div&gt;</code></pre>
+
+      <h2 id="buttons">Buttons</h2>
+      <pre><code>&lt;button class="flow-btn flow-btn--primary"&gt;Primary&lt;/button&gt;
