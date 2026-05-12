@@ -804,3 +804,4 @@ Flow.animateCounter(el, { target: 1000, duration: 2000, suffix: 'k', decimals: 1
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
+          links.forEach(l => l.classList.remove('active'));
