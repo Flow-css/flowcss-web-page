@@ -800,3 +800,7 @@ Flow.animateCounter(el, { target: 1000, duration: 2000, suffix: 'k', decimals: 1
 
   <script src="./flow.js"></script>
   <script>
+    const links = document.querySelectorAll('.sidebar-link');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
