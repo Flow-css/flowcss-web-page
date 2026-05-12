@@ -15,3 +15,19 @@ p, h1, h2, h3, h4, h5, h6 { overflow-wrap: break-word; }
 /* ─── CSS CUSTOM PROPERTIES ─────────────────────────────── */
 :root {
   /* Colors */
+  --flow-white: #ffffff;
+  --flow-black: #0a0a0a;
+  --flow-gray-50:  #f9fafb;
+  --flow-gray-100: #f3f4f6;
+  --flow-gray-200: #e5e7eb;
+  --flow-gray-300: #d1d5db;
+  --flow-gray-400: #9ca3af;
+  --flow-gray-500: #6b7280;
+  --flow-gray-600: #4b5563;
+  --flow-gray-700: #374151;
+  --flow-gray-800: #1f2937;
+  --flow-gray-900: #111827;
+
+  --flow-primary:   #2563eb;
+  --flow-primary-light: #3b82f6;
+  --flow-primary-dark:  #1d4ed8;
