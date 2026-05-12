@@ -805,3 +805,4 @@ Flow.animateCounter(el, { target: 1000, duration: 2000, suffix: 'k', decimals: 1
       entries.forEach(e => {
         if (e.isIntersecting) {
           links.forEach(l => l.classList.remove('active'));
+          const m = document.querySelector('.sidebar-link[href="#' + e.target.id + '"]');
