@@ -1,4 +1,4 @@
-'import { cpSync, existsSync, mkdirSync, rmSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, rmSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const rootDir = process.cwd();
